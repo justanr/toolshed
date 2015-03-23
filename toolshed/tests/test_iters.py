@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from nose.tools import assert_raises
-from toolshed.iters import (grange)
+from toolshed.iters import (grange, unzip)
 
 # helpers
 def make_drange(neg=False):
@@ -11,6 +11,9 @@ def make_drange(neg=False):
 
 
 # actual tests
+def test_unzip():
+    assert [('tim', 'sam'), (1,2)] == list(unzip(('tim', 1), ('sam', 2)))
+
 def test_grange_has_neg_step():
     assert grange(4, 1, -1)._has_neg_step
     assert make_drange(True)._has_neg_step

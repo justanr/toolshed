@@ -1,7 +1,21 @@
 from __future__ import division
 from math import ceil
+from .compatibility import zip
 
 __all__ = ('grange',)
+
+
+def unzip(*groups):
+    """Alias for zip(*groups).
+
+    Used to unzip pairs based on their items.
+
+    >>> u = unzip(toolz.compatiblity.iteritems({'ashley': 6, 'timothy': 15}))
+    >>> list(u)
+    ... [('ashley', 'timothy'), (6, 15)]
+    """
+    return zip(*groups)
+
 
 class grange(object):
     """A generalized range class that allows creating ranges of arbitrary
