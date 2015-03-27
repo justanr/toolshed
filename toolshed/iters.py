@@ -2,7 +2,8 @@ from __future__ import division
 from math import ceil
 from .compatibility import zip
 
-__all__ = ('grange',)
+
+__all__ = ('grange','unzip')
 
 
 def unzip(*groups):
@@ -10,8 +11,8 @@ def unzip(*groups):
 
     Used to unzip pairs based on their items.
 
-    >>> u = unzip(toolz.compatiblity.iteritems({'ashley': 6, 'timothy': 15}))
-    >>> list(u)
+    >>> d = {'ashley': 6, 'timothy': 15}
+    >>> list(unzip(toolz.compatiblity.iteritems(d)))
     ... [('ashley', 'timothy'), (6, 15)]
     """
     return zip(*groups)
@@ -161,12 +162,14 @@ class grange(object):
         return x in iter(self)
 
     def _check_stop(self, current):
-        """In keeping with __builtin__.range's behavior,
-        if the current value is one step away (or less) from the stopping
-        point, then we should terminate the iteration.
+        """In keeping with __builtin__.range's behavior, grange is
+        stop exclusive. However, the possibility of a negative step
+        makes inlining the if check a little nasty. So, it's
+        just punted off to this helper.
 
-        This is a helper method to determine when that point it.
         >>> grange(0, 6, 2)._check_stop(4)
+        ... False
+        >>> grange(0, 6, 2)._check_stop(6)
         ... True
         """
         if self._has_neg_step:
